@@ -9,6 +9,10 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
+const authRoute = require('./routes/authRoute');
+
+app.use('/api', authRoute);
+
 const port = process.env.SERVER_PORT | 3000;
 
 app.listenerCount(port, () => {
