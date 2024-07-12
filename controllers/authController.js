@@ -1,12 +1,12 @@
 const User = require('../models/userModel');
 
-const { ValidationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 
 const bcrypt = require('bcrypt');
 
 const registerUser = async(req, res) => {
     try{
-        const errors = ValidationResult(req);
+        const errors = validationResult(req);
 
         if(!errors.isEmpty()){
             return res.status(200).json({
