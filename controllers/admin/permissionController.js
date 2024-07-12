@@ -50,6 +50,58 @@ const addPermission = async(req, res) => {
     }
 }
 
+const getPermissions = async(req, res) => {
+    try{
+        const permissions = await Permission.find({});
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Permissions Fetched Successfully!',
+            data: permissions
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+
+    }
+}
+
+const deletePermissions = async(req, res) => {
+    try{
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(200).json({
+                success: false,
+                msg: 'Errors',
+                errors: errors.array()
+            });
+        }
+        
+        const { id } = req.body;
+
+        await Permission.findByIdAndDelete({ _id: id});
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Permission Deleted Successfully'
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+
+    }
+}
+
+
 module.exports = {
-    addPermission
+    addPermission,
+    getPermissions,
+    deletePermissions
 }
