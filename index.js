@@ -6,8 +6,13 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 
+// auth route
 const authRoute = require('./routes/authRoute');
 app.use('/api', authRoute);
+
+// admin route
+const adminRoute = require('./routes/adminRoute');
+app.use('/api/admin', adminRoute);
 
 const port = process.env.SERVER_PORT | 3000;
 
