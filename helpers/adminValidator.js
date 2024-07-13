@@ -13,4 +13,3 @@ exports.permissionUpdateValidator = [
 exports.categoryAddValidator = [
     check('category_name', 'category_name is required').not().isEmpty(),
 ];
-
