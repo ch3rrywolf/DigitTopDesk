@@ -3,9 +3,10 @@ const router = express.Router();
 
 const auth = require('../middlewares/authMiddleware');
 
-const {  } = require('../helpers/adminValidator');
+const { categoryAddValidator } = require('../helpers/adminValidator');
+const categoryController = require('../controllers/categoryController');
 
 // category routes
-router.post('/add-category', auth,);
+router.post('/add-category', auth.verifyToken, categoryAddValidator, categoryController.addCategory);
 
 module.exports = router;

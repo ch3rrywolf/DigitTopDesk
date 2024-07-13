@@ -14,6 +14,10 @@ app.use('/api', authRoute);
 const adminRoute = require('./routes/adminRoute');
 app.use('/api/admin', adminRoute);
 
+// common route
+const commonRoute = require('./routes/commonRoute');
+app.use('/api', commonRoute);
+
 const port = process.env.SERVER_PORT | 3000;
 
 const connectMongoDB = async () => {
