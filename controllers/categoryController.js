@@ -50,6 +50,26 @@ const addCategory = async(req, res) => {
     }
 }
 
+const getCategories = async(req, res) => {
+    try{
+
+        const categories = await Category.find({});
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Category Fetched Successfully!',
+            data: categories
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
+
 module.exports = {
-    addCategory
+    addCategory,
+    getCategories
 }
