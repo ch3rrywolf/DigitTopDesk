@@ -13,3 +13,6 @@ exports.permissionUpdateValidator = [
 exports.categoryAddValidator = [
     check('category_name', 'category_name is required').not().isEmpty(),
 ];
+exports.categoryDeleteValidator = [
+    check('id', 'ID is required').not().isEmpty(),
+];
