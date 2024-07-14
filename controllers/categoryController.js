@@ -69,8 +69,47 @@ const getCategories = async(req, res) => {
         });
     }
 }
+// delete_categories
+const deleteCategory = async(req, res) => {
+    try{
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(200).json({
+                success: false,
+                msg: 'Errors',
+                errors: errors.array()
+            });
+        }
+
+        const { id } = req.body;
+
+        const categoryData = await Category.findOne({ _id:id });
+
+        if(!categoryData){
+            return res.status(400).json({
+                success: false,
+                msg: "Category ID doesn't exists!"
+            });
+        }
+
+        await Category.findByIdAndDelete({ _id:id });
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Category Delete Successfully!'
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
 
 module.exports = {
     addCategory,
-    getCategories
+    getCategories,
+    deleteCategory
 }
