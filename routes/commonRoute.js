@@ -11,5 +11,6 @@ const categoryController = require('../controllers/categoryController');
 router.post('/add-category', auth.verifyToken, categoryAddValidator, categoryController.addCategory);
 router.get('/get-categories', auth.verifyToken, categoryController.getCategories);
 router.post('/delete-category', auth.verifyToken, categoryDeleteValidator, categoryController.deleteCategory);
+router.post('/update-category', auth.verifyToken);
 
 module.exports = router;
