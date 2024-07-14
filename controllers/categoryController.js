@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const Category = require('../models/categoryModel');
 
+// add_category
 const addCategory = async(req, res) => {
     try{
 
@@ -49,7 +50,7 @@ const addCategory = async(req, res) => {
         });
     }
 }
-
+// get_categories
 const getCategories = async(req, res) => {
     try{
 
