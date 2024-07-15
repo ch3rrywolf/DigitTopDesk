@@ -98,7 +98,7 @@ const deletePost = async(req, res) => {
     } catch(error){
         return res.status(400).json({
             success: false,
-            msg: error.message
+            msg: "Post doesn't exists!"
         });
     }
 }
@@ -115,7 +115,7 @@ const updatePost = async(req, res) => {
             });
         }
 
-        const { id } = req.body;
+        const { id, title, description } = req.body;
 
         const isExists = await Post.findOne({ _id:id });
 
@@ -126,17 +126,29 @@ const updatePost = async(req, res) => {
             });
         }
 
-        await Post.findByIdAndDelete({ _id:id });
+        var updateObj = {
+            title,
+            description
+        }
+
+        if(req.body.categories){
+            updateObj.categories = req.body.categories;
+        }
+        
+        const updatedPost = await Post.findByIdAndUpdate({ _id:id }, {
+            $set: updateObj
+        }, { new:true });
 
         return res.status(200).json({
             success: true,
-            msg: 'Post Deleted Successfully!'
+            msg: 'Post Updated Successfully!',
+            data: updatePost
         });
 
     } catch(error){
         return res.status(400).json({
             success: false,
-            msg: error.message
+            msg: "Post doesn't exists!"
         });
     }
 }
