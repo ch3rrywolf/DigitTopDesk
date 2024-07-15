@@ -29,7 +29,7 @@ const createPost = async(req, res) => {
 
         const postData = await post.save();
 
-        const postFullData = await Post.funOne({ _id: postData._id }).populate('categories');
+        const postFullData = await Post.findOne({ _id: postData._id }).populate('categories');
 
         return res.status(200).json({
             success: true,
