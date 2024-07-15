@@ -16,7 +16,7 @@ exports.loginValidator = [
 ];
 
 exports.createUserValidator = [
-    check('name', 'Name is required ').not().isEmpty(),
+    check('matricule', 'matricule is required ').not().isEmpty(),
     check('email', 'Please include a valid email ').isEmail().normalizeEmail({
         gmail_remove_dots:true
     }),
