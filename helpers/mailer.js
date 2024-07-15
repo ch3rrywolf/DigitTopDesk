@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-const transport = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
     secure: false,
@@ -11,27 +11,27 @@ const transport = nodemailer.createTransport({
     }
 });
 
-const sendMail = async(email, subject, content) => {
-    try{
-        var mailOptions = {
+const sendMail = async (email, subject, content) => {
+    try {
+        const mailOptions = {
             from: process.env.SMTP_MAIL,
             to: email,
             subject: subject,
             html: content
         };
 
-        WebTransportError.sendMAil(mailOptions, (erro, info) => {
-            if(error){
-                console.log(error);
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error.response);
+                return;
             }
-
-            console.log('Mail has been sent ', info.messageId);
+            console.log('Mail has been sent:', info);
         });
 
-    } catch(error){
-        console.log(error.message);
+    } catch (error) {
+        console.error('Unexpected error:', error.message);
     }
-}
+};
 
 module.exports = {
     sendMail
