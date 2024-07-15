@@ -46,6 +46,26 @@ const createPost = async(req, res) => {
 
 }
 
+const getPosts = async(req, res) => {
+    try{
+
+        const posts = await Post.find({}).populate('categories');
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Post Fetched Successfully!',
+            data: posts
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
+
 module.exports = {
-    createPost
+    createPost,
+    getPosts
 }
