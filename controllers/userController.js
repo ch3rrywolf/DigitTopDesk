@@ -4,6 +4,8 @@ const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 
+const { sendMail } = require('../helpers/mailer');
+
 const createUser = async(req, res) => {
     try{
         const errors = validationResult(req);
@@ -53,6 +55,28 @@ const createUser = async(req, res) => {
         const userData = await user.save();
 
         console.log(password);
+
+        const content = `
+        <p>Hi <b> `+userData.matricule+`,</b> Your account is created, below is your details.</p>
+        <table style="border-style:none;">
+            <tr>
+                <th>Matricule:- </th>
+                <td>`+userData.matricule+`</td>
+            </tr>
+            <tr>
+                <th>Email:- </th>
+                <td>`+userData.email+`</td>
+            </tr>
+            <tr>
+                <th>Password:- </th>
+                <td>`+password+`</td>
+            </tr>
+        </table>
+        <p>Now you can login your account in Our Application, Thanks...</p>
+        `;
+
+        sendMail(userData.email, 'Account Created', content);
+
         return res.status(200).json({
             success: true,
             msg: "User Created Successfully!",
