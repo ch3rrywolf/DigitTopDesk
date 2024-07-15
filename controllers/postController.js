@@ -65,7 +65,85 @@ const getPosts = async(req, res) => {
     }
 }
 
+const deletePost = async(req, res) => {
+    try{
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(200).json({
+                success: false,
+                msg: 'Errors',
+                errors: errors.array()
+            });
+        }
+
+        const { id } = req.body;
+
+        const isExists = await Post.findOne({ _id:id });
+
+        if(!isExists){
+            return res.status(400).json({
+                success: false,
+                msg: "Post doesn't exists!"
+            });
+        }
+
+        await Post.findByIdAndDelete({ _id:id });
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Post Deleted Successfully!'
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
+
+const updatePost = async(req, res) => {
+    try{
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(200).json({
+                success: false,
+                msg: 'Errors',
+                errors: errors.array()
+            });
+        }
+
+        const { id } = req.body;
+
+        const isExists = await Post.findOne({ _id:id });
+
+        if(!isExists){
+            return res.status(400).json({
+                success: false,
+                msg: "Post doesn't exists!"
+            });
+        }
+
+        await Post.findByIdAndDelete({ _id:id });
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Post Deleted Successfully!'
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
+
 module.exports = {
     createPost,
-    getPosts
+    getPosts,
+    deletePost,
+    updatePost
 }

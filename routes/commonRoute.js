@@ -18,6 +18,6 @@ router.post('/update-category', auth.verifyToken, categoryUpdateValidator, categ
 router.post('/create-post', auth.verifyToken, postCreateValidator, postController.createPost);
 router.get('/get-posts', auth.verifyToken, postController.getPosts);
 router.post('/delete-post', auth.verifyToken, postDeleteValidator, postController.deletePost);
-router.post('/update-post', auth.verifyToken, postUpdateValidator, postController.updateePost);
+router.post('/update-post', auth.verifyToken, postUpdateValidator, postController.updatePost);
 
 module.exports = router;
