@@ -37,6 +37,29 @@ const storeRole = async(req, res) => {
     }
 }
 
+const getRoles = async(req, res) => {
+    try{
+
+        const roles = await Role.find({
+            value: {
+                $ne:1
+            }
+        });
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Roles Fetched Successfully!',
+            data: roles
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
+
 module.exports = {
     storeRole,
     getRoles
