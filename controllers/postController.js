@@ -142,7 +142,7 @@ const updatePost = async(req, res) => {
         return res.status(200).json({
             success: true,
             msg: 'Post Updated Successfully!',
-            data: updatePost
+            data: updatedPost
         });
 
     } catch(error){
