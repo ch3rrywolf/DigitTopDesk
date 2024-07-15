@@ -17,5 +17,6 @@ router.post('/update-category', auth.verifyToken, categoryUpdateValidator, categ
 // post routes
 router.post('/create-post', auth.verifyToken, postCreateValidator, postController.createPost);
 router.get('/get-posts', auth.verifyToken, postController.getPosts);
+router.post('/delete-posts', auth.verifyToken, postController.deletePosts);
 
 module.exports = router;
