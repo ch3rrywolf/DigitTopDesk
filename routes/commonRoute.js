@@ -25,5 +25,6 @@ router.post('/update-post', auth.verifyToken, postUpdateValidator, postControlle
 
 // user routes
 router.post('/create-user', auth.verifyToken, createUserValidator, userController.createUser);
+router.get('/get-users', auth.verifyToken, userController.getUsers);
 
 module.exports = router;

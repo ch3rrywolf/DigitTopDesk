@@ -92,6 +92,30 @@ const createUser = async(req, res) => {
     }
 }
 
+// get users
+const getUsers = async(req, res) => {
+    try{
+        const users = await User.find({
+            _id: {
+                $ne: req.user._id
+            }
+        });
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Users Fetched Successfully!',
+            data: users
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
+
 module.exports = {
-    createUser
+    createUser,
+    getUsers
 }
