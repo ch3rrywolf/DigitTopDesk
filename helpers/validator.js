@@ -23,3 +23,6 @@ exports.updateUserValidator = [
     check('id', 'id is required ').not().isEmpty(),
     check('matricule', 'matricule is required ').not().isEmpty(),
 ];
+exports.deleteUserValidator = [
+    check('id', 'id is required ').not().isEmpty(),
+];
