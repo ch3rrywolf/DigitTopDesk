@@ -5,7 +5,7 @@ const auth = require('../middlewares/authMiddleware');
 
 const { categoryAddValidator, categoryDeleteValidator, categoryUpdateValidator, postCreateValidator, postDeleteValidator, postUpdateValidator } = require('../helpers/adminValidator');
 
-const { createUserValidator } = require('../helpers/validator');
+const { createUserValidator, updateUserValidator } = require('../helpers/validator');
 
 const categoryController = require('../controllers/categoryController');
 const postController = require('../controllers/postController');
@@ -26,5 +26,6 @@ router.post('/update-post', auth.verifyToken, postUpdateValidator, postControlle
 // user routes
 router.post('/create-user', auth.verifyToken, createUserValidator, userController.createUser);
 router.get('/get-users', auth.verifyToken, userController.getUsers);
+router.post('/update-user', auth.verifyToken, updateUserValidator, userController.updateUser);
 
 module.exports = router;
