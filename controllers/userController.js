@@ -6,6 +6,7 @@ const randomstring = require('randomstring');
 
 const { sendMail } = require('../helpers/mailer');
 
+// create user
 const createUser = async(req, res) => {
     try{
         const errors = validationResult(req);
@@ -115,7 +116,61 @@ const getUsers = async(req, res) => {
     }
 }
 
+// update user
+const updateUser = async(req, res) => {
+    try{
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(400).json({
+                success: false,
+                msg: 'Errors',
+                errors: errors.array()
+            });
+        }
+
+        const { id, matricule } = req.body;
+
+        const isExists = await User.findOne({
+            _id: id
+        });
+
+        if(!isExists){
+            return res.status(400).json({
+                success: false,
+                msg: 'User not exists!'
+            });
+        }
+
+        var updateObj = {
+            matricule
+        }
+
+        if(req.body.role != undefined){
+            updateObj.role = req.body.role;
+        }
+
+        const updatedData = await User.findByIdAndUpdate({ _id: id },{
+            $set: updateObj
+        }, { new:true });
+
+        return res.status(200).json({
+            success: true,
+            msg: 'User Updated Successfully!',
+            data: updatedData
+        });
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+}
+
+
 module.exports = {
     createUser,
-    getUsers
+    getUsers,
+    updateUser
 }
