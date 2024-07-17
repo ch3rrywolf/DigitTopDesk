@@ -1,10 +1,14 @@
 const { validationResult } = require('express-validator');
 
 const User = require('../models/userModel');
+const Permission = require('../models/permissionModel');
+const UserPermission = require('../models/userPermissionModel');
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 
 const { sendMail } = require('../helpers/mailer');
+
+const mongoose = require('mongoose');
 
 // create user
 const createUser = async(req, res) => {
@@ -55,6 +59,33 @@ const createUser = async(req, res) => {
 
         const userData = await user.save();
 
+        //add permission to user if coming in request
+        if(req.body.permissions != undefined && req.body.permissions.length > 0){
+
+            const addPermission = req.body.permissions;
+
+            const permissionArray = [];
+
+            await Promise.all(addPermission.map( async(permission) => {
+
+                const permissionData = await Permission.findOne({ _id: permission.id });
+
+                permissionArray.push({
+                    permission_name: permissionData.permission_name,
+                    permission_value: permission.value,
+                });
+
+            } ));
+
+            const userPermission = new UserPermission({
+                user_id: userData._id,
+                permissions: permissionArray
+            })
+
+            await userPermission.save();
+
+        }
+
         console.log(password);
 
         const content = `
@@ -96,11 +127,46 @@ const createUser = async(req, res) => {
 // get users
 const getUsers = async(req, res) => {
     try{
-        const users = await User.find({
-            _id: {
-                $ne: req.user._id
+
+        const users = await User.aggregate([
+            {
+                $match:{
+                    _id: {
+                        $ne: new mongoose.Types.ObjectId(req.user._id)
+                    }
+                }
+            },
+            {
+                $lookup:{
+                    from:"userpermissions",
+                    localField: "_id",
+                    foreignField: "user_id",
+                    as: "permissions"
+                }
+            },
+            {
+                $project:{
+                    _id: 1,
+                    matricule: 1,
+                    email: 1,
+                    role: 1,
+                    permissions:{
+                        $cond:{
+                            if: { $isArray: "$permissions" },
+                            then: { $arrayElemAt: [ "$permissions", 0 ] },
+                            else: null
+                        }
+                    }
+                }
+            },
+            {
+                $addFields:{
+                    "permissions":{
+                        "permissions": "$permissions.permissions"
+                    }
+                }
             }
-        });
+        ]);
 
         return res.status(200).json({
             success: true,
