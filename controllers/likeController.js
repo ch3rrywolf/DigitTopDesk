@@ -108,28 +108,16 @@ const postLikeCount = async(req, res) => {
             });
         }
 
-        const { user_id, post_id } = req.body;
+        const { post_id } = req.body;
 
-        const isLiked = await Like.findOne({
-            user_id,
+        const likeCount = await Like.find({
             post_id
-        })
-
-        if(!isLiked){
-            return res.status(400).json({
-                success: false,
-                msg: 'You have not liked!'
-            });
-        }
-
-        await Like.deleteOne({
-            user_id,
-            post_id
-        })
+        }).countDocuments()
 
         return res.status(200).json({
             success: true,
-            msg: 'Post unliked'
+            msg: 'Post Like Count',
+            count: likeCount
         });
 
     } catch(error){
