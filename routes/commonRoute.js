@@ -31,6 +31,6 @@ router.post('/update-user', auth.verifyToken, updateUserValidator, userControlle
 router.post('/delete-user', auth.verifyToken, deleteUserValidator, userController.deleteUser);
 
 // like & unlike routes
-router.post('/post-like', auth.verifyToken, postLikeUnlikeValidator, likeController.deleteUser);
+router.post('/post-like', auth.verifyToken, postLikeUnlikeValidator, likeController.postLike);
 
 module.exports = router;
