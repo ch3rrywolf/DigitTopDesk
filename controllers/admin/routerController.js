@@ -1,3 +1,7 @@
+const { validationResult } = require('express-validator');
+
+const RouterPermission = require('../../models/routerPermissionModel');
+
 const getAllRoutes = async(req, res) => {
 
     try{
@@ -23,7 +27,42 @@ const getAllRoutes = async(req, res) => {
             msg: 'All Routes!',
             data: routes
         });
-        
+
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+
+}
+
+const addRouterPermission = async(req, res) => {
+    try{
+
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(400).json({
+                success: false,
+                msg: 'Errors',
+                errors: errors.array()
+            });
+        }
+
+        const { router_endpoint, role, permission } = req.body;
+        const routerPermission = await RouterPermission.findOneAndUpdate(
+            { router_endpoint, role },
+            { router_endpoint, role, permission },
+            { upsert:true, new:true, setDefaultsOnInsert:true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            msg: 'Router Permission added/updated',
+            data: routerPermission
+        });
+
     } catch(error){
         return res.status(400).json({
             success: false,
@@ -34,5 +73,6 @@ const getAllRoutes = async(req, res) => {
 }
 
 module.exports = {
-    getAllRoutes
+    getAllRoutes,
+    addRouterPermission
 }

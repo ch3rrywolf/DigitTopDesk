@@ -36,3 +36,8 @@ exports.storeRoleValidator = [
     check('role_name', 'role_name is required').not().isEmpty(),
     check('value', 'value is required').not().isEmpty(),
 ];
+exports.addRouterPermissionValidator = [
+    check('router_endpoint', 'router_endpoint is required').not().isEmpty(),
+    check('role', 'role is required').not().isEmpty(),
+    check('permission', 'permission is required').isArray(),
+];
