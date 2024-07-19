@@ -12,9 +12,11 @@ const postController = require('../controllers/postController');
 const userController = require('../controllers/userController');
 const likeController = require('../controllers/likeController');
 
+const checkPermission = require('../middlewares/checkPermission');
+
 // category routes
 router.post('/add-category', auth.verifyToken, categoryAddValidator, categoryController.addCategory);
-router.get('/get-categories', auth.verifyToken, categoryController.getCategories);
+router.get('/get-categories', auth.verifyToken, checkPermission, categoryController.getCategories);
 router.post('/delete-category', auth.verifyToken, categoryDeleteValidator, categoryController.deleteCategory);
 router.post('/update-category', auth.verifyToken, categoryUpdateValidator, categoryController.updateCategory);
 
