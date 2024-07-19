@@ -41,3 +41,6 @@ exports.addRouterPermissionValidator = [
     check('role', 'role is required').not().isEmpty(),
     check('permission', 'permission is required').isArray(),
 ];
+exports.getRouterPermissionValidator = [
+    check('router_endpoint', 'router_endpoint is required').not().isEmpty(),
+];
