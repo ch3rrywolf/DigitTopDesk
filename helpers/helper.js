@@ -51,8 +51,16 @@ const getUserPermissions = async(user_id) => {
 const getRouterPermission = async(router, role) => {
     try{
 
+        const routerPermission = await RouterPermission.findOne({
+            router_endpoint: router,
+            role
+        }).populate('permission_id');
+
+        return routerPermission;
+
     } catch(error){
         console.log(error.message);
+        return null;
     }
 }
 
