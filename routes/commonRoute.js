@@ -15,26 +15,26 @@ const likeController = require('../controllers/likeController');
 const checkPermission = require('../middlewares/checkPermission');
 
 // category routes
-router.post('/add-category', auth.verifyToken, categoryAddValidator, categoryController.addCategory);
+router.post('/add-category', auth.verifyToken, checkPermission, categoryAddValidator, categoryController.addCategory);
 router.get('/get-categories', auth.verifyToken, checkPermission, categoryController.getCategories);
-router.post('/delete-category', auth.verifyToken, categoryDeleteValidator, categoryController.deleteCategory);
-router.post('/update-category', auth.verifyToken, categoryUpdateValidator, categoryController.updateCategory);
+router.post('/delete-category', auth.verifyToken, checkPermission, categoryDeleteValidator, categoryController.deleteCategory);
+router.post('/update-category', auth.verifyToken, checkPermission, categoryUpdateValidator, categoryController.updateCategory);
 
 // post routes
-router.post('/create-post', auth.verifyToken, postCreateValidator, postController.createPost);
-router.get('/get-posts', auth.verifyToken, postController.getPosts);
-router.post('/delete-post', auth.verifyToken, postDeleteValidator, postController.deletePost);
-router.post('/update-post', auth.verifyToken, postUpdateValidator, postController.updatePost);
+router.post('/create-post', auth.verifyToken, checkPermission, postCreateValidator, postController.createPost);
+router.get('/get-posts', auth.verifyToken, checkPermission, postController.getPosts);
+router.post('/delete-post', auth.verifyToken, checkPermission, postDeleteValidator, postController.deletePost);
+router.post('/update-post', auth.verifyToken, checkPermission, postUpdateValidator, postController.updatePost);
 
 // user routes
-router.post('/create-user', auth.verifyToken, createUserValidator, userController.createUser);
-router.get('/get-users', auth.verifyToken, userController.getUsers);
-router.post('/update-user', auth.verifyToken, updateUserValidator, userController.updateUser);
-router.post('/delete-user', auth.verifyToken, deleteUserValidator, userController.deleteUser);
+router.post('/create-user', auth.verifyToken, checkPermission, createUserValidator, userController.createUser);
+router.get('/get-users', auth.verifyToken, checkPermission, userController.getUsers);
+router.post('/update-user', auth.verifyToken, checkPermission, updateUserValidator, userController.updateUser);
+router.post('/delete-user', auth.verifyToken, checkPermission, deleteUserValidator, userController.deleteUser);
 
 // like & unlike routes
-router.post('/post-like', auth.verifyToken, postLikeUnlikeValidator, likeController.postLike);
-router.post('/post-unlike', auth.verifyToken, postLikeUnlikeValidator, likeController.postUnLike);
-router.post('/post-like-count', auth.verifyToken, postLikeCountValidator, likeController.postLikeCount);
+router.post('/post-like', auth.verifyToken, checkPermission, postLikeUnlikeValidator, likeController.postLike);
+router.post('/post-unlike', auth.verifyToken, checkPermission, postLikeUnlikeValidator, likeController.postUnLike);
+router.post('/post-like-count', auth.verifyToken, checkPermission, postLikeCountValidator, likeController.postLikeCount);
 
 module.exports = router;
