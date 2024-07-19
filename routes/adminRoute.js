@@ -18,4 +18,5 @@ router.post('/update-permission', auth.verifyToken, onlyAdminAccess, permissionU
 router.post('/store-role', auth.verifyToken, onlyAdminAccess, storeRoleValidator, roleController.storeRole);
 router.get('/get-roles', auth.verifyToken, onlyAdminAccess, roleController.getRoles);
 
+
 module.exports = router;
