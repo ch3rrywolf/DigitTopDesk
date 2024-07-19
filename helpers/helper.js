@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-
+const RouterPermission = require('../models/routerPermissionModel');
 const mongoose = require('mongoose');
 
 const getUserPermissions = async(user_id) => {
@@ -48,6 +48,15 @@ const getUserPermissions = async(user_id) => {
     }
 }
 
+const getRouterPermission = async(router, role) => {
+    try{
+
+    } catch(error){
+        console.log(error.message);
+    }
+}
+
 module.exports = {
-    getUserPermissions
+    getUserPermissions,
+    getRouterPermission
 }
