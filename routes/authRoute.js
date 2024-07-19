@@ -9,6 +9,9 @@ const { registerValidator, loginValidator } = require('../helpers/validator');
 router.post('/register', registerValidator, authController.registerUser);
 router.post('/login', loginValidator, authController.loginUser);
 
+// authenticated routes
 router.get('/profile', authMiddleware.verifyToken, authController.getProfile);
+
+router.get('/refresh-permissions', authMiddleware.verifyToken, authController.getUserPermissions);
 
 module.exports = router;

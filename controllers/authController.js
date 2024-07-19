@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Permission = require('../models/permissionModel');
 const UserPermission = require('../models/userPermissionModel');
+const helper = require('../helpers/helper');
 
 // Register
 const registerUser = async(req, res) => {
@@ -191,8 +192,31 @@ const getProfile = async(req, res) => {
 
 }
 
+// get_User_Permissions
+const getUserPermissions = async(req, res) => {
+    try{
+        const user_id = req.user._id;
+
+        const userPermissions = await helper.getUserPermissions(user_id);
+
+        return res.status(200).json({
+            success: true,
+            msg: 'User Permissions',
+            data: userPermissions
+        });
+        
+    } catch(error){
+        return res.status(400).json({
+            success: false,
+            msg: error.message
+        });
+    }
+
+}
+
 module.exports = {
     registerUser,
     loginUser,
-    getProfile
+    getProfile,
+    getUserPermissions
 }
