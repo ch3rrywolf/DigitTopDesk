@@ -8,9 +8,7 @@ const getUserPermissions = async(user_id) => {
         const user = await User.aggregate([
             {
                 $match:{
-                    _id: {
-                        _id: new mongoose.Types.ObjectId(user_id)
-                    }
+                        _id: new mongoose.Types.ObjectId(user_id)   
                 }
             },
             {
